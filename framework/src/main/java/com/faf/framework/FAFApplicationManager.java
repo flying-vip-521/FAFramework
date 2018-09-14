@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import com.faf.framework.log.Logger;
+import com.faf.framework.log.AndroidLogAdapter;
+import com.faf.framework.log.L;
 import com.faf.framework.module.ModuleManager;
 import com.faf.framework.utils.AppUtils;
 
@@ -24,12 +25,20 @@ public abstract class FAFApplicationManager {
     private boolean foreground = false;
 
     public void init(Application context) {
-        FrameworkManager.getInstance().init(context);
         application = context;
+        FrameworkManager.getInstance().init(context);
         application.registerActivityLifecycleCallbacks(new FrameworkActivityLifeCycleCallback());
         dispatchInit(context);
         //onAppInit必须在dispatchInit后，因为要先注册模块，再启动模块的初始化
         ModuleManager.getInstance().onAppInit();
+        afterInit();
+    }
+
+
+    private void afterInit() {
+        if (L.needAddDefaultLogAdapter()) {
+            L.addLogAdapter(new AndroidLogAdapter());
+        }
     }
 
     public Context getContext() {
@@ -51,22 +60,22 @@ public abstract class FAFApplicationManager {
         }
     }
 
-    abstract void initOnAllProcess();
+    protected abstract void initOnAllProcess();
 
     /**
      * 初始化主进程需要的组件【禁止耗时函数，组件初始化应在子线程执行】
      */
-    abstract void initComponentsOnMainProcess();
+    protected abstract void initComponentsOnMainProcess();
 
-    abstract void initOnMainProcess();
+    protected abstract void initOnMainProcess();
 
-    abstract void registerModuleOnMainProcess();
+    protected abstract void registerModuleOnMainProcess();
 
-    abstract void dispatchInitComponentsOnOtherProcess(String processName);
+    protected abstract void dispatchInitComponentsOnOtherProcess(String processName);
 
-    abstract void dispatchInitOnOtherProcess(String processName);
+    protected abstract void dispatchInitOnOtherProcess(String processName);
 
-    abstract void dispatchRegisterModuleOnOtherProcess(String processName);
+    protected abstract void dispatchRegisterModuleOnOtherProcess(String processName);
 
     /**
      * 获取本应用栈顶Activity
@@ -112,7 +121,7 @@ public abstract class FAFApplicationManager {
      * 应用通过back键退出时的回调【判断标准为应用所有的界面关闭】
      */
     public void onAppExit() {
-        Logger.v(TAG, "onAppExit");
+        L.v(TAG, "onAppExit");
         ModuleManager.getInstance().onAppExit();
     }
 
@@ -121,7 +130,18 @@ public abstract class FAFApplicationManager {
      */
     public void onAppForeground() {
         foreground = true;
-        Logger.v(TAG, "onAppForeground");
+        test();
+    }
+
+    private void test() {
+        L.v(TAG, "onAppForeground");
+        try {
+            String str = null;
+            str.equals("xx");
+        } catch (Exception e) {
+            L.e(TAG, e.getCause(), "test");
+
+        }
     }
 
     /**
@@ -129,7 +149,8 @@ public abstract class FAFApplicationManager {
      */
     public void onAppBackground() {
         foreground = false;
-        Logger.v(TAG, "onAppBackground");
+        L.v(TAG, "onAppBackground");
+        test();
     }
 
     public boolean isForeground() {

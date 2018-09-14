@@ -1,6 +1,6 @@
 package com.faf.framework.component;
 
-import com.faf.framework.log.Logger;
+import com.faf.framework.log.L;
 
 public abstract class Component {
     private static final String TAG = Component.class.getSimpleName();
@@ -15,7 +15,7 @@ public abstract class Component {
     }
 
     public void onReady() {
-        Logger.v(TAG, "onInitFinish for component : " + name);
+        L.v(TAG, "onInitFinish for component : " + name);
         ComponentManager.getInstance().onComponentReady(this);
     }
 

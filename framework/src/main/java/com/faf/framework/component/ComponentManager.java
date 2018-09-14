@@ -1,7 +1,7 @@
 package com.faf.framework.component;
 
 import android.text.TextUtils;
-import com.faf.framework.log.Logger;
+import com.faf.framework.log.L;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -45,7 +45,8 @@ public class ComponentManager {
      */
     public synchronized void onComponentReady(Component component) {
         if (!componentReady.contains(component.getName())) {
-            Logger.v(TAG, "Component Ready : " + component.getName());
+
+            L.v(TAG, "Component Ready : " + component.getName());
             componentReady.add(component.getName());
             if (isAllComponentReady()) {
                 notifyAllComponentReady();
@@ -57,7 +58,7 @@ public class ComponentManager {
      * 通知所有组件初始化OK
      */
     private synchronized void notifyAllComponentReady() {
-        Logger.v(TAG, "All Component Ready");
+        L.v(TAG, "All Component Ready");
         for (Iterator<OnAllComponentReadyListener> iterator = finishListeners.iterator(); iterator.hasNext(); ) {
             OnAllComponentReadyListener listener = iterator.next();
             listener.onAllComponentReady();

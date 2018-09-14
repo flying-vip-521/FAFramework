@@ -30,4 +30,5 @@ public class FrameworkManager {
     public Context getContext() {
         return context;
     }
+
 }

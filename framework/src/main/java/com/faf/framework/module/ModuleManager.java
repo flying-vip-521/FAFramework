@@ -1,7 +1,7 @@
 package com.faf.framework.module;
 
 import android.content.Context;
-import com.faf.framework.log.Logger;
+import com.faf.framework.log.L;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -85,7 +85,7 @@ public class ModuleManager {
     void onModuleFinish(BaseModule module) {
         initMap.put(module.getClass(), module);
         if (initMap.values().size() == map.values().size()) {
-            Logger.v(TAG, "all modules init finished 【" + map.values().size() + " modules】");
+            L.v(TAG, "all modules init finished 【" + map.values().size() + " modules】");
             for (OnAllModuleInitFinishListener l : finishListeners) {
                 l.onAllModuleInit();
             }

@@ -1,6 +1,6 @@
 package com.faf.framework.report;
 
-import com.faf.framework.log.Logger;
+import com.faf.framework.log.L;
 import com.google.gson.Gson;
 
 /**
@@ -42,7 +42,7 @@ public class ReportManager implements IReport {
     public void report(Object data) {
         if (reportReady()) {
             if (data == null) {
-                Logger.w(TAG, "report: data is null");
+                L.w(TAG, "report: data is null");
                 return;
             }
             log("report", data);
@@ -54,7 +54,7 @@ public class ReportManager implements IReport {
     public void reportPageIn(Object data) {
         if (reportReady()) {
             if (data == null) {
-                Logger.w(TAG, "reportPageIn: data is null");
+                L.w(TAG, "reportPageIn: data is null");
                 return;
             }
             log("reportPageIn", data);
@@ -66,7 +66,7 @@ public class ReportManager implements IReport {
     public void reportPageOut(Object data) {
         if (reportReady()) {
             if (data == null) {
-                Logger.w(TAG, "reportPageOut: data is null");
+                L.w(TAG, "reportPageOut: data is null");
                 return;
             }
             log("reportPageOut", data);
@@ -85,6 +85,6 @@ public class ReportManager implements IReport {
         if (gson == null) {
             gson = new Gson();
         }
-        Logger.v(TAG, fun + ":" + gson.toJson(data));
+        L.v(TAG, fun + ":" + gson.toJson(data));
     }
 }

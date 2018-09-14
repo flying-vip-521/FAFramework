@@ -10,7 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import com.faf.framework.FrameworkManager;
-import com.faf.framework.log.Logger;
+import com.faf.framework.log.L;
 
 import java.io.ByteArrayInputStream;
 import java.security.cert.CertificateException;
@@ -179,7 +179,7 @@ public class AppUtils {
             return pubKey + "|" + signNumber;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            Logger.d(TAG, "package name not found");
+            L.d(TAG, "package name not found");
         } catch (CertificateException e) {
             e.printStackTrace();
         }

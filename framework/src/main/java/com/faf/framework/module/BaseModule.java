@@ -1,7 +1,7 @@
 package com.faf.framework.module;
 
 import android.content.Context;
-import com.faf.framework.log.Logger;
+import com.faf.framework.log.L;
 
 
 /**
@@ -25,7 +25,7 @@ public abstract class BaseModule {
 
     public void onInitFinish() {
         init = true;
-        Logger.v(this.getClass().getSimpleName(), "onInitFinish:" + this.getClass().getSimpleName());
+        L.v(this.getClass().getSimpleName(), "onInitFinish:" + this.getClass().getSimpleName());
         ModuleManager.getInstance().onModuleFinish(this);
     }
 
